@@ -1,11 +1,194 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>haishi_web</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>莆田海事法规库</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12" style="text-align: right;">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>yejiayu (上次登录: 2014-12-12)
+        <button type="button" class="btn btn-primary btn-sm">登出</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="list-group type-list" id="type1-list">
+          <a class="list-group-item disabled">主题</a>
+          <a data-action="add" class="list-group-item" data-toggle="modal" data-target="#addType1">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="list-group type-list" id="type2-list">
+          <a class="list-group-item disabled">类型</a>
+          <a data-action="add" class="list-group-item" data-toggle="modal" data-target="#addType2">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="list-group type-list">
+          <a class="list-group-item disabled">其他</a>
+          <a id="grabate" href="/?isGarbate=true" class="list-group-item item">废弃</a>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add">添加法规</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>名称</th>
+              <th>更新时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="book-body">
+            <!--<tr>
+              <td>1</td>
+              <td>关于印发《内河船员管理质量体系编写指南》和《内河船员教育和培训质量管理体系编写指南》的通知</td>
+              <td>2014-12-12</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-info">更新</button>
+                  <button type="button" class="btn btn-danger">弃用</button>
+                  <button type="button" class="btn btn-danger">删除</button>
+                </div>
+              </td>
+            </tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 更新法规 -->
+  <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">更新法规</h4>
+        </div>
+        <div class="modal-body">
+          <form id="submit">
+            <div class="form-group">
+              <label for="exampleInputEmail1">上传文件:</label>
+              <input type="file" id="update-fileupload" name="file">
+            </div>
+            <input type="hidden" id="update-fileId">
+            <input type="hidden" id="update-id">
+          </form>
+          <div id="progress" class="progress">
+            <div class="progress-bar progress-bar-success"></div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" id="update-book" class="btn btn-primary">更新</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- add 法规 -->
+  <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">添加法规</h4>
+        </div>
+        <div class="modal-body">
+          <form id="submit">
+            <div class="form-group">
+              <label for="exampleInputEmail1">选择主题:</label>
+              <select name="" id="type1-select">
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">选择类型:</label>
+              <select name="" id="type2-select">
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">上传文件:</label>
+              <input type="file" id="fileupload" name="file">
+            </div>
+            <input type="hidden" id="filename">
+            <input type="hidden" id="fileId">
+          </form>
+          <div id="progress" class="progress">
+            <div class="progress-bar progress-bar-success"></div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" id="save" class="btn btn-primary">添加</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- add 主题 -->
+  <div class="modal fade" id="addType1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">添加主题</h4>
+        </div>
+        <div class="modal-body">
+          <form id="type1-form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">主题:</label>
+              <input type="text" id="type1-name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" id="type1-save" class="btn btn-primary">添加</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- add 类型 -->
+  <div class="modal fade" id="addType2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">添加类型</h4>
+        </div>
+        <div class="modal-body">
+          <form id="submit">
+            <div class="form-group">
+              <label for="exampleInputEmail1">类型:</label>
+              <input type="text" id="type2-name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" id="type2-save" class="btn btn-primary">添加</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.ui.widget.js"></script>
+  <script src="/js/jquery.iframe-transport.js"></script>
+  <script src="/js/jquery.fileupload.js"></script>
+  <script src="/js/jquery.fileupload-process.js"></script>
+  <script src="/js/moment.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
 </html>

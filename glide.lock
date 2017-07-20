@@ -1,8 +1,25 @@
-hash: 2524cde994dd6ee80226c3fa2a108a5f0e4b2d034f3f5c8de4ffcd2e65614e7b
-updated: 2017-06-09T13:23:29.046228073+08:00
+hash: dd16bd0e697ead4505124cbbd7fb99b0022a7a07e0aef455eccbe2b39e8a4e4a
+updated: 2017-06-29T13:50:13.901763131+08:00
 imports:
+- name: github.com/boj/redistore
+  version: 4562487a4bee9a7c272b72bfaeda4917d0a47ab9
 - name: github.com/boltdb/bolt
   version: 583e8937c61f1af6513608ccc75c97b6abdf4ff9
+- name: github.com/bradfitz/gomemcache
+  version: 1952afaa557dc08e8e0d89eafab110fb501c1a2b
+  subpackages:
+  - memcache
+- name: github.com/bradleypeabody/gorilla-sessions-memcache
+  version: 75ee37df8664a47cd5d9eb84d41e1f2b08086893
+- name: github.com/garyburd/redigo
+  version: 57f1cd7de6175c96b423e7ac2534ff2b39e2ef79
+  subpackages:
+  - internal
+  - redis
+- name: github.com/gin-contrib/sessions
+  version: 447fdfad36b791744edb51dee50ab1e1a24384d4
+- name: github.com/gin-contrib/static
+  version: 986b610925a822771d6c475a6246ffa913085c7b
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
   subpackages:
@@ -12,10 +29,20 @@ imports:
   version: 2402d76f3d41f928c7902a765dfc872356dd3aad
   subpackages:
   - proto
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+- name: github.com/gorilla/securecookie
+  version: e59506cc896acb7f7bf732d4fdf5e25f7ccd8983
+- name: github.com/gorilla/sessions
+  version: 8b6b4cd75f07f7ee036eb37b8127bd40ab1efc49
+- name: github.com/kidstuff/mongostore
+  version: 256d65ac5b0e35e7c5ebb3f175c0bed1e5c2b253
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
 - name: github.com/mattn/go-isatty
   version: fc9e8d8ef48496124e79ae0df75490096eccf6fe
+- name: github.com/mattn/go-sqlite3
+  version: afe454f6220b3972691678af2c5579781563183f
 - name: golang.org/x/net
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
@@ -26,6 +53,13 @@ imports:
   - unix
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
+- name: gopkg.in/mgo.v2
+  version: 3f83fa5005286a7fe593b055f0d7771a7dce4655
+  subpackages:
+  - bson
+  - internal/json
+  - internal/sasl
+  - internal/scram
 - name: gopkg.in/yaml.v2
   version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
 testImports: []

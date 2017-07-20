@@ -1,12 +1,16 @@
 package main
 
 import (
+	"flag"
+
 	"github.com/fuckFE/haishi_server/server"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
-	server.SetupAPI(r)
-	r.Run() // listen and serve on 0.0.0.0:8080
+	port := flag.String("port", "8080", "tcp port")
+
+	flag.Parse()
+	r := server.GetMainEngine()
+
+	r.Run(":" + *port)
 }
