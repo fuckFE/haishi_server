@@ -3,6 +3,7 @@ package server
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/fuckFE/haishi_server/model"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,7 @@ func setupTypes(rg *gin.RouterGroup) {
 	types := rg.Group("/types")
 	types.GET("", getTypes)
 	types.POST("", createType)
+	types.DELETE("/:id", delTypeById)
 }
 
 func getTypes(c *gin.Context) {
@@ -44,4 +46,21 @@ func createType(c *gin.Context) {
 	}
 
 	c.JSON(200, t)
+}
+
+func delTypeById(c *gin.Context) {
+	idStr := c.Param("id")
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.String(500, err.Error())
+		return
+	}
+
+	if err := model.DelTypeById(uint64(id)); err != nil {
+		c.String(500, err.Error())
+		return
+	}
+
+	c.String(200, "success")
 }

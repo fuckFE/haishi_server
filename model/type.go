@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/binary"
 	"encoding/json"
+	"log"
 
 	"github.com/boltdb/bolt"
 )
@@ -70,4 +71,40 @@ func GetTypes() ([]Type, error) {
 	})
 
 	return ts, err
+}
+
+func DelTypeById(id uint64) error {
+	bs, err := GetBook(id, false)
+	if err != nil {
+		return err
+	}
+
+	for _, b := range bs {
+		hasRemove := true
+		types := make([]uint64, 0)
+
+		for _, t := range b.Types {
+			if t != id {
+				hasRemove = false
+				types = append(types, t)
+			}
+		}
+
+		if hasRemove {
+			if err := DelBook(b.ID); err != nil {
+				log.Println(err)
+			}
+		} else {
+			if err := updateBookTypes(b.ID, types); err != nil {
+				log.Println(err)
+			}
+		}
+	}
+
+	return openDB().Update(func(tx *bolt.Tx) error {
+		bucket := tx.Bucket([]byte(typeBucketName))
+		idBytes := make([]byte, 8)
+		binary.BigEndian.PutUint64(idBytes, id)
+		return bucket.Delete(idBytes)
+	})
 }

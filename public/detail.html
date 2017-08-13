@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>莆田海事法规库</title>
+</head>
+<body>
+  <script src="/js/jquery.min.js"></script>
+  <script>
+    function parseQuery() {
+      const qstr = location.search
+      const query = {};
+      const a = (qstr[0] === '?' ? qstr.substr(1) : qstr).split('&');
+      for (let i = 0; i < a.length; i++) {
+        const b = a[i].split('=');
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+      }
+      return query;
+    }
+    $(() => {
+      const id = parseQuery().id
+      $.ajax({
+        url: `/api/books/${id}`,
+        success(data) {
+          document.head.title = data.filename
+          document.body.innerHTML = data.payload
+        }
+      })
+    })
+  </script>
+</body>
+</html>
