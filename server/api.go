@@ -1,7 +1,10 @@
 package server
 
 import (
+	"bytes"
+	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -38,13 +41,43 @@ func GetMainEngine() *gin.Engine {
 			return
 		}
 
-		payload, err := ioutil.ReadAll(file)
+		bodyBuf := bytes.NewBuffer(nil)
+		bodyWriter := multipart.NewWriter(bodyBuf)
+		fileWriter, err := bodyWriter.CreateFormFile("file", "tmpfile.doc")
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 			return
 		}
 
-		tf, err := model.CreateTmpfile(header.Filename, payload)
+		io.Copy(fileWriter, file)
+		//这里必须Close，否则不会向bodyBuf写入boundary分隔符
+		err = bodyWriter.Close()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
+		contentType := bodyWriter.FormDataContentType()
+
+		req, err := http.NewRequest("POST", "http://localhost:8080/conv", bodyBuf)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
+		req.Header.Set("Content-Type", contentType)
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
+		defer resp.Body.Close()
+
+		respBody, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
+
+		tf, err := model.CreateTmpfile(header.Filename, []byte(respBody))
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err)
 			return

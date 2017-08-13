@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>莆田海事法规库</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+</head>
+<body>
+  <header class="page-header text-center">
+      <h1>莆田海事法规库</h1>
+  </header>
+  <div class="container">    
+      <div class="form-horizontal">
+          <div class="form-group">
+              <label class="col-sm-2 control-label">用户名</label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="login-user" placeholder="请输入用户名">
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-sm-2 control-label">密码</label>
+              <div class="col-sm-6">
+                  <input type="password" class="form-control" id="login-pass" name="" placeholder="请输入密码">
+              </div>
+          </div>
+
+          <div class="form-group">
+              <div class="col-sm-2">
+
+              </div>
+              <div class="col-sm-10">
+              <button class="btn btn-success" data-toggle="modal" data-target="#addUser">添加用户</button>
+              <button id="login" class="btn btn-primary">登录</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+        </div>
+        <div class="modal-body">
+          <form id="add-user-form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">超级管理员账号</label>
+              <input type="text" class="form-control" id="admin-user" name="admin-user" placeholder="超级管理员账号">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">超级管理员密码</label>
+              <input type="password" class="form-control" id="admin-pass" name="admin-pass" placeholder="超级管理员密码">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">账号</label>
+              <input type="text" class="form-control" id="user" name="user" placeholder="账号">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">密码</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+            </div>
+            <button type="submit" class="btn btn-default">添加</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script>
+    $('#add-user-form').on('submit', e => {
+      e.preventDefault()
+      const adminUser = $('#admin-user').val()
+      const adminPass = $('#admin-pass').val()
+      const user = $('#user').val()
+      const password = $('#password').val()
+
+      $.ajax({
+        url: '/api/users',
+        method: 'POST',
+        data: JSON.stringify({
+          adminUser,
+          adminPass,
+          user,
+          password
+        }),
+        success(res) {
+          $('#addUser').modal('hide')
+        }
+      })
+    })
+
+    $('#login').on('click', e => {
+      const user = $('#login-user').val()
+      const password = $('#login-pass').val()
+
+      $.ajax({
+        url: '/api/users/login',
+        method: 'POST',
+        data: JSON.stringify({
+          user,
+          password
+        }),
+        success(res) {
+          if (res === 'ok') {
+            location.href = "/"
+          } else {
+            alert("登录失败")
+          }
+        }
+      })
+    })
+  </script>
+</body>
+</html>

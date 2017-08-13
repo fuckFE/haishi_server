@@ -17,11 +17,38 @@ type userForm struct {
 
 func setupUsers(rg *gin.RouterGroup) {
 	users := rg.Group("/users")
-	users.GET("", func(c *gin.Context) {
-		c.String(200, "users")
-	})
+	users.GET("", getCurrentUser)
 	users.POST("", createUser)
 	users.POST("/login", login)
+	users.GET("/logout", logout)
+}
+
+func getCurrentUser(c *gin.Context) {
+	s := sessions.Default(c)
+	val := s.Get("user")
+
+	if val == nil {
+		c.String(403, "unauth")
+		return
+	}
+
+	u, ok := val.(string)
+	if !ok {
+		c.String(403, "unauth")
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"user": u,
+	})
+}
+
+func logout(c *gin.Context) {
+	s := sessions.Default(c)
+	s.Delete("user")
+	s.Save()
+
+	c.String(200, "ok")
 }
 
 func createUser(c *gin.Context) {

@@ -76,6 +76,32 @@
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
   <script>
+    $(document).keyup(e => {
+      if (e.which === 13) {
+        login()
+      }
+    });
+
+    function login() {
+      const user = $('#login-user').val()
+      const password = $('#login-pass').val()
+
+      $.ajax({
+        url: '/api/users/login',
+        method: 'POST',
+        data: JSON.stringify({
+          user,
+          password
+        }),
+        success(res) {
+          if (res === 'ok') {
+            location.href = "/"
+          } else {
+            alert("登录失败")
+          }
+        }
+      })
+    }
     $('#add-user-form').on('submit', e => {
       e.preventDefault()
       const adminUser = $('#admin-user').val()
@@ -98,26 +124,7 @@
       })
     })
 
-    $('#login').on('click', e => {
-      const user = $('#login-user').val()
-      const password = $('#login-pass').val()
-
-      $.ajax({
-        url: '/api/users/login',
-        method: 'POST',
-        data: JSON.stringify({
-          user,
-          password
-        }),
-        success(res) {
-          if (res === 'ok') {
-            location.href = "/"
-          } else {
-            alert("登录失败")
-          }
-        }
-      })
-    })
+    $('#login').on('click', login)
   </script>
 </body>
 </html>

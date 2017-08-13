@@ -3,7 +3,9 @@ package server
 import (
 	"log"
 	"net/http"
+	"path"
 	"strconv"
+	"strings"
 
 	"github.com/fuckFE/haishi_server/model"
 	"github.com/gin-gonic/gin"
@@ -45,6 +47,8 @@ func createBook(c *gin.Context) {
 			types = append(types, uint64(t))
 		}
 	}
+
+	tf.Filename = strings.TrimSuffix(tf.Filename, path.Ext(tf.Filename))
 	if err := model.CreateBook(tf.Filename, tf.Payload, types); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, err)

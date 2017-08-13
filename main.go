@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	port := flag.String("port", "8080", "tcp port")
+	port := flag.String("port", "8000", "tcp port")
 
 	flag.Parse()
 	r := server.GetMainEngine()

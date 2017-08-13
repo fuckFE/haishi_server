@@ -45,6 +45,35 @@ func CreateBook(filename string, payload []byte, types []uint64) error {
 	return openDB().Update(func(tx *bolt.Tx) error {
 		bucket := tx.Bucket([]byte(bookBucketName))
 
+		// done := false
+		// bucket.ForEach(func(k, v []byte) error {
+		// 	var b Book
+		// 	if err := json.Unmarshal(v, &b); err != nil {
+		// 		return err
+		// 	}
+
+		// 	if b.Filename == filename {
+		// 		b.Payload = string(payload)
+		// 		b.Types = types
+
+		// 		nb, err := json.Marshal(b)
+		// 		if err != nil {
+		// 			return err
+		// 		}
+
+		// 		if err := bucket.Put(k, nb); err != nil {
+		// 			return err
+		// 		}
+
+		// 		done = true
+		// 	}
+		// 	return nil
+		// })
+
+		// if done {
+		// 	return nil
+		// }
+
 		id, err := bucket.NextSequence()
 		if err != nil {
 			return err

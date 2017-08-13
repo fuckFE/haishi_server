@@ -1,10 +1,10 @@
-hash: dd16bd0e697ead4505124cbbd7fb99b0022a7a07e0aef455eccbe2b39e8a4e4a
-updated: 2017-06-29T13:50:13.901763131+08:00
+hash: 6e864dde113c759be1a79029d2543e35fc051faf0e14fbd3f3125ff01663c32e
+updated: 2017-07-30T20:14:05.38824622+08:00
 imports:
 - name: github.com/boj/redistore
   version: 4562487a4bee9a7c272b72bfaeda4917d0a47ab9
 - name: github.com/boltdb/bolt
-  version: 583e8937c61f1af6513608ccc75c97b6abdf4ff9
+  version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
 - name: github.com/bradfitz/gomemcache
   version: 1952afaa557dc08e8e0d89eafab110fb501c1a2b
   subpackages:
@@ -12,21 +12,24 @@ imports:
 - name: github.com/bradleypeabody/gorilla-sessions-memcache
   version: 75ee37df8664a47cd5d9eb84d41e1f2b08086893
 - name: github.com/garyburd/redigo
-  version: 57f1cd7de6175c96b423e7ac2534ff2b39e2ef79
+  version: 9e66b83d15a259978be267d0b61838c42c3904e3
   subpackages:
   - internal
   - redis
 - name: github.com/gin-contrib/sessions
-  version: 447fdfad36b791744edb51dee50ab1e1a24384d4
+  version: 227bb6c9c4d414dc87160512d271788ed918e7ef
+- name: github.com/gin-contrib/sse
+  version: 22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae
 - name: github.com/gin-contrib/static
   version: 986b610925a822771d6c475a6246ffa913085c7b
 - name: github.com/gin-gonic/gin
-  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
+  version: 7fafb3f4a177ca92821dc5bf6e59f17e5f130588
   subpackages:
   - binding
+  - json
   - render
 - name: github.com/golang/protobuf
-  version: 2402d76f3d41f928c7902a765dfc872356dd3aad
+  version: 748d386b5c1ea99658fd69fe9f03991ce86a90c1
   subpackages:
   - proto
 - name: github.com/gorilla/context
@@ -35,24 +38,22 @@ imports:
   version: e59506cc896acb7f7bf732d4fdf5e25f7ccd8983
 - name: github.com/gorilla/sessions
   version: 8b6b4cd75f07f7ee036eb37b8127bd40ab1efc49
+- name: github.com/json-iterator/go
+  version: c15b4d116cb805508fd5862d8761a88076b3cc8e
 - name: github.com/kidstuff/mongostore
   version: 256d65ac5b0e35e7c5ebb3f175c0bed1e5c2b253
-- name: github.com/manucorporat/sse
-  version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
 - name: github.com/mattn/go-isatty
   version: fc9e8d8ef48496124e79ae0df75490096eccf6fe
-- name: github.com/mattn/go-sqlite3
-  version: afe454f6220b3972691678af2c5579781563183f
-- name: golang.org/x/net
-  version: f315505cf3349909cdf013ea56690da34e96a451
+- name: github.com/ugorji/go
+  version: 5efa3251c7f7d05e5d9704a69a984ec9f1386a40
   subpackages:
-  - context
+  - codec
 - name: golang.org/x/sys
-  version: f3918c30c5c2cb527c0b071a27c35120a6c0719a
+  version: 0f826bdd13b500be0f1d4004938ad978fcc6031e
   subpackages:
   - unix
 - name: gopkg.in/go-playground/validator.v8
-  version: c193cecd124b5cc722d7ee5538e945bdb3348435
+  version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
 - name: gopkg.in/mgo.v2
   version: 3f83fa5005286a7fe593b055f0d7771a7dce4655
   subpackages:
@@ -61,5 +62,9 @@ imports:
   - internal/sasl
   - internal/scram
 - name: gopkg.in/yaml.v2
-  version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
-testImports: []
+  version: 25c4ec802a7d637f88d584ab26798e94ad14c13b
+testImports:
+- name: github.com/kr/pretty
+  version: cfb55aafdaf3ec08f0db22699ab822c50091b1c4
+- name: github.com/kr/text
+  version: 7cafcd837844e784b526369c9bce262804aebc60

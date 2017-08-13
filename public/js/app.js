@@ -9,6 +9,13 @@ $(() => {
 
   init()
   function init(params) {
+    $.ajax({
+      url: '/api/users',
+      success(res) {
+        $('#login-user-name').val(res.user)
+      }
+    })
+
     getTypes(res => {
       const query = parseQuery()
       if (query.isGarbate) {
@@ -30,6 +37,14 @@ $(() => {
     updateUpload()
     save()
     managerBook()
+    $('#logout').on('click', () => {
+      $.ajax({
+        url: '/api/users/logout',
+        success() {
+          location.href = "/login.html"
+        }
+      })
+    })
   }
 
   function parseQuery() {
