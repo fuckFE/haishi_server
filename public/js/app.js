@@ -12,8 +12,27 @@ $(() => {
     $.ajax({
       url: '/api/users',
       success(res) {
-        $('#login-user-name').val(res.user)
+        $('#login-user-name').html(res.user)
       }
+    })
+
+    $('#menu').delegate('.remove', 'click', e => {
+      e.preventDefault()
+        if (!window.confirm(`确定删除?`)) {
+        return
+      }
+
+      const id = $(e.target).data('id')
+      $.ajax({
+        url: `/api/types/${id}`,
+        method: 'DELETE',
+        success(res) {
+          if (res === 'success') {
+            location.reload()
+          }
+        }
+      })
+
     })
 
     getTypes(res => {
@@ -74,7 +93,7 @@ $(() => {
         }),
         success: (res) => {
           $(`#type${num}-list a:last-child`)
-            .before(`<a href="/?id=${res.id}" data-id=${res.id} class="list-group-item item">${res.name}</a>`)
+            .before(`<a href="/?id=${res.id}" data-id=${res.id} class="list-group-item item">${res.name}<span data-id=${res.id} class="glyphicon glyphicon-remove remove" aria-hidden="true"></span></a>`)
           $(`#type${num}-select`)
             .append(`<option value="${res.id}">${res.name}</option>`)
           $(`#addType${num}`).modal('hide')
@@ -95,7 +114,7 @@ $(() => {
               .append(`
               <tr>
                 <td>${b.id}</td>
-                <td>${b.filename}</td>
+                <td><a href="/detail.html?id=${b.id}" target="_blank">${b.filename}</a></td>
                 <td>${moment(b.last).format('YYYY-MM-DD HH:mm')}</td>
                 <td>
                   <div class="btn-group manager-group" role="group" aria-label="...">
@@ -120,7 +139,7 @@ $(() => {
       success: (res) => {
         res.forEach(t => {
           $(`#type${t.category}-list a:last-child`)
-            .before(`<a href="/?id=${t.id}" data-id=${t.id} class="list-group-item item">${t.name}</a>`)
+            .before(`<a href="/?id=${t.id}" data-id=${t.id} class="list-group-item item">${t.name}<span data-id=${t.id} class="glyphicon glyphicon-remove remove" aria-hidden="true"></span></a>`)
           $(`#type${t.category}-select`)
             .append(`<option value="${t.id}">${t.name}</option>`)
         })
@@ -192,7 +211,7 @@ $(() => {
               .append(`
               <tr>
                 <td>${b.id}</td>
-                <td>${b.filename}</td>
+                <td><a href="/detail.html?id=${b.id}" target="_blank">${b.filename}</a></td>
                 <td>${moment(b.last).format('YYYY-MM-DD HH:mm')}</td>
                 <td>
                   <div class="btn-group manager-group" role="group" aria-label="...">

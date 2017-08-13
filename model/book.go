@@ -301,3 +301,25 @@ func updateRawBook(bucket *bolt.Bucket, id uint64, payload string) error {
 		return bucket.Put(idBytes, b)
 	})
 }
+
+func updateBookTypes(id uint64, ts []uint64) error {
+	return openDB().Update(func(tx *bolt.Tx) error {
+		bucket := tx.Bucket([]byte(bookBucketName))
+
+		idBytes := make([]byte, 8)
+		binary.BigEndian.PutUint64(idBytes, id)
+
+		b := bucket.Get(idBytes)
+		var book Book
+		if err := json.Unmarshal(b, &book); err != nil {
+			return err
+		}
+		book.Types = ts
+		b, err := json.Marshal(book)
+		if err != nil {
+			return err
+		}
+
+		return bucket.Put(idBytes, b)
+	})
+}
