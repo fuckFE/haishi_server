@@ -205,6 +205,7 @@ func Garbate(id uint64) error {
 		}
 
 		book.IsGarbate = !book.IsGarbate
+		book.Last = time.Now()
 
 		b, err := json.Marshal(book)
 		if err != nil {
